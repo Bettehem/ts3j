@@ -34,7 +34,7 @@ public final class Ts3Crypt {
 
     public static byte[] hash128(byte[] data, int offs, int len) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA1");
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
             digest.update(data, offs, len);
             return digest.digest();
         } catch (GeneralSecurityException ex) {
@@ -44,7 +44,7 @@ public final class Ts3Crypt {
 
     public static byte[] hash128(byte[] data) {
         try {
-            return MessageDigest.getInstance("SHA1").digest(data);
+            return MessageDigest.getInstance("SHA-1").digest(data);
         } catch (GeneralSecurityException ex) {
             throw new RuntimeException(ex);
         }
@@ -52,7 +52,7 @@ public final class Ts3Crypt {
 
     public static byte[] hash256(byte[] data) {
         try {
-            return MessageDigest.getInstance("SHA256").digest(data);
+            return MessageDigest.getInstance("SHA-256").digest(data);
         } catch (GeneralSecurityException ex) {
             throw new RuntimeException(ex);
         }
@@ -60,7 +60,7 @@ public final class Ts3Crypt {
 
     public static byte[] hash512(byte[] data) {
         try {
-            return MessageDigest.getInstance("SHA512").digest(data);
+            return MessageDigest.getInstance("SHA-512").digest(data);
         } catch (GeneralSecurityException ex) {
             throw new RuntimeException(ex);
         }
