@@ -96,7 +96,7 @@ public final class Packet {
     public ByteBuffer readHeader(ByteBuffer buffer) {
         if (getHeader() == null) {
             try {
-                setHeader(getRole().getHeaderClass().newInstance());
+                setHeader(getRole().getHeaderClass().getDeclaredConstructor().newInstance());
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
             }
