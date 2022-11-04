@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Packet fragmentation helper.  Pulled out of the client logic for use in FragmentTest so we can track the stability
+ * Packet fragmentation helper.  Pulled out of the client logic for use in FragmentTest, so we can track the stability
  * of fragmentation.
  */
 public final class Fragments {
@@ -66,7 +66,8 @@ public final class Fragments {
                 int flush = Math.min(maxFragmentSize, size - offs);
 
                 boolean first = offs == 0;
-                boolean last = flush < maxFragmentSize;
+                boolean hasNext = offs + flush < size;
+                boolean last = !hasNext;
 
                 Packet piece = new Packet(packet.getRole());
                 piece.setHeader(packet.getHeader().clone());
@@ -74,6 +75,11 @@ public final class Fragments {
                 if (!first) // Only first packet has flags
                     piece.getHeader().setPacketFlags(HeaderFlag.NONE.getIndex());
 
+                // All parts should have NEW_PROTOCOL flag if original Packet has it
+                piece.getHeader().setPacketFlag(
+                        HeaderFlag.NEW_PROTOCOL,
+                        packet.getHeader().getPacketFlag(HeaderFlag.NEW_PROTOCOL)
+                );
                 // First and last packet get FRAGMENTED flag
                 piece.getHeader().setPacketFlag(HeaderFlag.FRAGMENTED, first || last);
 
